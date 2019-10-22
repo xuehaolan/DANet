@@ -24,6 +24,7 @@ We propose a divergent activation (DA) approach, and target at learning compleme
     sh train_DA_cub.sh
     ~~~
 - Test
+
   Download the pretrained model at GoogleDrive(https://drive.google.com/open?id=114zDDJe6zYbRjashntibbN1D4DM0E1uw)
     ~~~
     cd scripts
@@ -33,4 +34,5 @@ We propose a divergent activation (DA) approach, and target at learning compleme
  1. Using modified VGG(vgg_DA_p) could achieve higher performance for both CAM and DANet.
  2. The valiation code uses simple thresholding, using localization method provided by CAM(https://github.com/metalbubble/CAM) may gets greater localization results.
  
+ ## Visualization
  
