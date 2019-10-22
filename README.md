@@ -35,4 +35,4 @@ We propose a divergent activation (DA) approach, and target at learning compleme
  2. The valiation code uses simple thresholding, using localization method provided by CAM(https://github.com/metalbubble/CAM) may gets greater localization results.
  
  ## Visualization
- 
+ <img src='figs/results_CUB.png' align="center" width="400px"> <img src='figs/results_ILSVRC.png' align="center" width="400px">
