@@ -14,7 +14,7 @@ We propose a divergent activation (DA) approach, and target at learning compleme
     cd $DANet_ROOT
     ~~~
   
-2. Create an Anaconda environment with python2.7 and PyTorch>=4.0
+2. Create an Anaconda environment with python2.7 and PyTorch>=0.4.0
 3. Download the images of CUB-200-2011 dataset and place the data at $DANet_ROOT/data/CUB-200-2011
 
 ## Train and test
