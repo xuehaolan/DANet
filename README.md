@@ -32,7 +32,11 @@ We propose a divergent activation (DA) approach, and target at learning compleme
     ~~~
 - Note
  1. Using modified VGG(vgg_DA_p) could achieve higher performance for both CAM and DANet.
- 2. The valiation code uses simple thresholding, using localization method provided by CAM(https://github.com/metalbubble/CAM) may gets greater localization results.
+ 2. The valiation code uses simple thresholding, using localization method provided by [CAM](https://github.com/metalbubble/CAM) may gets greater localization results.
  
  ## Visualization
  <img src='figs/results_CUB.png' align="center" width="400px"> <img src='figs/results_ILSVRC.png' align="center" width="400px">
+
+
+ ## Acknowledgement
+In this project, we reimplemented CHR on PyTorch based on [SPG](https://github.com/xiaomengyc/SPG).
