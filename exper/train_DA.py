@@ -91,7 +91,7 @@ def get_model(args):
     model = torch.nn.DataParallel(model, range(args.num_gpu))
 
     lr = args.lr
-    added_layers = ['fc', 'cls'] if args.diff_lr == 'True' else []
+    added_layers = ['fc', 'cls','classifier'] if args.diff_lr == 'True' else []
     weight_list = []
     bias_list = []
     added_weight_list = []
