@@ -56,7 +56,7 @@ class Inception3(nn.Module):
         self.threshold = threshold
         self.transform_input = transform_input
         self.cos_alpha = args.cos_alpha
-        self.num_maps = 8
+        self.num_maps = 4
         # ====================== backbone ==============================
         # original inception_v3 layers
         self.Conv2d_1a_3x3 = BasicConv2d(3, 32, kernel_size=3, stride=2, padding=1)  # spatial scale half
@@ -155,7 +155,7 @@ class Inception3(nn.Module):
         self.parent_map = self.parent_map.view(batch_size, 37, self.num_maps, 25, 25)
         self.child_map = self.child_map.view(batch_size, self.num_classes, self.num_maps, 12, 12)
 
-        root_logits = torch.mean(torch.mean(torch.mean(self.order_map, dim=2), dim=2), dim=2)
+        root_logits = torch.mean(torch.mean(torch.mean(self.root_map, dim=2), dim=2), dim=2)
         parent_logits = torch.mean(torch.mean(torch.mean(self.parent_map, dim=2), dim=2), dim=2)
         child_logits = torch.mean(torch.mean(torch.mean(self.child_map, dim=2), dim=2), dim=2)
 
@@ -166,7 +166,7 @@ class Inception3(nn.Module):
 
         batch_size = maps.size(0)
         num_maps = maps.size(1)
-        channel_num = 12
+        channel_num = 6
         eps = 1e-8
         random_seed = random.sample(range(num_maps), channel_num)
         maps = maps[:, random_seed, :, :].view(batch_size, channel_num, -1)
@@ -188,10 +188,10 @@ class Inception3(nn.Module):
         batch_size = self.child_map.size(0)
 
         maps = torch.cat((
-            F.upsample((self.child_map.reshape(batch_size*self.num_classes, self.num_maps, 12, 12)[[gt_child_label[i].long()+(i*self.num_classes) for i in range(batch_size)], :, :, :]).reshape(batch_size, self.num_maps, 12, 12),size=(25, 25), mode='bilinear', align_corners=True),
-            F.upsample((self.parent_map.reshape(batch_size * 37, self.num_maps, 25, 25)[[parent_logits[i].long() + (i * 37) for i in range(batch_size)], :, :, :]).reshape(batch_size, self.num_maps, 25, 25), size=(25, 25),
+            F.upsample((self.child_map.reshape(batch_size*self.num_classes, self.num_maps, 12, 12)[[gt_child_label.detach().cpu().numpy()[i]+(i*self.num_classes) for i in range(batch_size)], :, :, :]).reshape(batch_size, self.num_maps, 12, 12),size=(25, 25), mode='bilinear', align_corners=True),
+            F.upsample((self.parent_map.reshape(batch_size * 37, self.num_maps, 25, 25)[[gt_parent_label.detach().cpu().numpy()[i] + (i * 37) for i in range(batch_size)], :, :, :]).reshape(batch_size, self.num_maps, 25, 25), size=(25, 25),
                        mode='bilinear', align_corners=True),
-            (self.root_map.reshape(batch_size*11, self.num_maps, 25, 25)[[root_logits[i].long() + (i * 11) for i in range(batch_size)], :, :, :]).reshape(batch_size, self.num_maps, 25, 25)), 1)
+            (self.root_map.reshape(batch_size*11, self.num_maps, 25, 25)[[gt_root_label.detach().cpu().numpy()[i] + (i * 11) for i in range(batch_size)], :, :, :]).reshape(batch_size, self.num_maps, 25, 25)), 1)
 
         loss_cos, random_seed = self.calculate_cosineloss(maps)
 
@@ -200,6 +200,7 @@ class Inception3(nn.Module):
         child_loss_cls = self.loss_cross_entropy(child_logits, gt_child_label.long())
 
         loss_val = 0.5 * root_loss_cls + 0.5 * parent_loss_cls + 0.5 * child_loss_cls + self.cos_alpha * loss_cos
+
         return loss_val, root_loss_cls, parent_loss_cls, child_loss_cls, loss_cos
 
 
