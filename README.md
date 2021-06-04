@@ -1,11 +1,12 @@
 # DANet
 DANet: Divergent Activation for Weakly Supervised Object Localization，in ICCV 2019
-## Overview of DANet
+## Introduction
 We propose a divergent activation (DA) approach, and target at learning complementary and discriminative visual patterns for image classification and weakly supervised object localization from the perspective of discrepancy. To this end, we design hierarchical divergent activation (HDA), which leverages the semantic discrepancy to spread feature activation, implicitly. We also propose discrepant divergent activation (DDA), which pursues object extent by learning mutually exclusive visual patterns, explicitly.
 
 ![](figs/architecture.png)
 
-## Setup
+## Getting started
+### Install
 1. Clone this repo:
 
     ~~~
@@ -15,9 +16,10 @@ We propose a divergent activation (DA) approach, and target at learning compleme
     ~~~
   
 2. Create an Anaconda environment with python2.7 and PyTorch>=0.4.0
-3. Download the images of CUB-200-2011 dataset and place the data at $DANet_ROOT/data/CUB-200-2011
+### Data preparation
+Download the images of CUB-200-2011 dataset and place the data at $DANet_ROOT/data/CUB-200-2011
 
-## Train and test
+### Train and test
 - Train
     ~~~
     cd scripts
@@ -40,3 +42,15 @@ We propose a divergent activation (DA) approach, and target at learning compleme
 
  ## Acknowledgement
 In this project, we reimplemented CHR on PyTorch based on [SPG](https://github.com/xiaomengyc/SPG).
+
+ ## Citation
+ Please consider citing our paper in your publications if the project helps your research.
+ ~~~
+ @inproceedings{xue2019danet,
+  title={Danet: Divergent activation for weakly supervised object localization},
+  author={Xue, Haolan and Liu, Chang and Wan, Fang and Jiao, Jianbin and Ji, Xiangyang and Ye, Qixiang},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={6589--6598},
+  year={2019}
+}
+~~~
